@@ -1,0 +1,36 @@
+.pagina-conteudo { max-width: 940px; margin: 0 auto; padding: 10px 0 32px; }
+.link-voltar { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 22px; color: #4d745d; text-decoration: none; font-size: 13px; font-weight: 700; }
+.cabecalho-detalhes { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 25px; }
+.eyebrow { margin: 0 0 7px; color: #64806f; font: 700 11px 'Courier New', monospace; letter-spacing: 2px; }
+.cabecalho-detalhes h2 { margin: 0; color: #263e35; font-size: clamp(25px, 3vw, 32px); }
+.cabecalho-detalhes p:last-child { margin: 8px 0 0; color: #718077; font-size: 14px; }
+.cartao-detalhes { padding: clamp(20px, 4vw, 34px); border: 1px solid #e0e8e2; border-radius: 18px; background: #fff; box-shadow: 0 9px 28px rgba(32,55,43,.06); }
+.destaque-participante { display: flex; align-items: center; gap: 15px; padding-bottom: 25px; border-bottom: 1px solid #e7eee8; }
+.avatar-detalhes { display: grid; place-items: center; flex: 0 0 58px; width: 58px; height: 58px; border-radius: 17px; background: #e5f0e8; color: #316747; font-size: 24px; font-weight: 800; }
+.nome-email { flex: 1; min-width: 0; }
+.nome-email h3 { margin: 0; color: #283e34; font-size: 20px; overflow-wrap: anywhere; }
+.nome-email h3 .pi { margin-right: 5px; color: #64806f; font-size: 15px; }
+.nome-email p { margin: 6px 0 0; color: #728078; font-size: 13px; overflow-wrap: anywhere; }
+.nome-email p .pi { margin-right: 4px; color: #87958a; font-size: 12px; }
+.etiqueta-percurso { padding: 7px 11px; border-radius: 30px; background: #e8f4eb; color: #28613f; font-size: 12px; font-weight: 800; white-space: nowrap; }
+.etiqueta-percurso.percurso-10 { background: #fff0d8; color: #8a5615; }
+.grade-dados { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 24px; }
+.item-dado { display: flex; flex-direction: column; gap: 8px; padding: 21px 0; border-bottom: 1px solid #edf1ee; }
+.item-dado span { display: flex; align-items: center; gap: 7px; color: #849087; font-size: 12px; }
+.item-dado span .pi { color: #64806f; font-size: 13px; }
+.item-dado strong { color: #34483d; font-size: 15px; overflow-wrap: anywhere; }
+.nota-detalhes { display: flex; align-items: flex-start; gap: 8px; margin-top: 22px; padding: 14px; border-left: 3px solid #8db39a; border-radius: 0 8px 8px 0; background: #f4f8f4; color: #5f7465; font-size: 12px; line-height: 1.6; }
+.nota-detalhes > .pi { flex: 0 0 auto; margin-top: 2px; color: #34714b; }
+.nota-detalhes strong { margin-right: 4px; }
+.acoes-detalhes { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 10px; margin-top: 25px; }
+.botao { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 42px; padding: 10px 15px; border: 1px solid transparent; border-radius: 9px; text-decoration: none; font-size: 13px; font-weight: 750; }
+.botao .pi { font-size: 13px; }
+.botao-principal { color: #fff; background: #2f6b4f; }
+.botao-principal:hover { background: #25583f; }
+.botao-secundario { color: #345347; background: #fff; border-color: #d9e2dc; }
+.botao:focus-visible, .link-voltar:focus-visible { outline: 3px solid rgba(47,107,79,.28); outline-offset: 2px; }
+.estado-nao-encontrada { display: flex; align-items: center; flex-direction: column; padding: 40px 24px; border: 1px dashed #d5dfd7; border-radius: 18px; background: rgba(255,255,255,.65); text-align: center; }
+.estado-nao-encontrada > span { display: grid; place-items: center; width: 42px; height: 42px; margin-bottom: 14px; border-radius: 14px; background: #fff0df; color: #9b5e19; font-size: 19px; }
+.estado-nao-encontrada h2 { margin: 0; color: #2d4638; }
+.estado-nao-encontrada p { max-width: 500px; margin: 10px 0 20px; color: #758279; font-size: 14px; line-height: 1.55; }
+@media (max-width: 600px) { .cabecalho-detalhes { align-items: flex-start; flex-direction: column; } .cabecalho-detalhes .botao { width: 100%; box-sizing: border-box; } .destaque-participante { align-items: flex-start; flex-wrap: wrap; } .nome-email { flex-basis: calc(100% - 78px); } .etiqueta-percurso { margin-left: 73px; } .grade-dados { grid-template-columns: 1fr; } .acoes-detalhes { flex-direction: column-reverse; } .acoes-detalhes .botao { width: 100%; box-sizing: border-box; } }

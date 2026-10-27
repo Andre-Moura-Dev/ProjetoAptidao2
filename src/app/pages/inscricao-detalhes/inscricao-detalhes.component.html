@@ -1,0 +1,48 @@
+<section class="pagina-conteudo">
+  <a class="link-voltar" routerLink="/inscricoes"><i class="pi pi-arrow-left" aria-hidden="true"></i> Voltar para inscrições</a>
+
+  <div *ngIf="carregando" class="estado-nao-encontrada" role="status">Carregando inscrição...</div>
+
+  <ng-container *ngIf="!carregando">
+    <ng-container *ngIf="inscricao as participante; else naoEncontrada">
+      <header class="cabecalho-detalhes">
+        <div>
+          <p class="eyebrow">CONSULTA INDIVIDUAL</p>
+          <h2>Detalhes da inscrição</h2>
+          <p>Confira os dados registrados para este participante.</p>
+        </div>
+        <a pButton class="botao botao-principal" [routerLink]="['/inscricoes', participante.email, 'editar']"><i class="pi pi-pencil" aria-hidden="true"></i> Editar inscrição</a>
+      </header>
+
+      <article class="cartao-detalhes">
+        <div class="destaque-participante">
+          <div class="avatar-detalhes">{{ participante.nomeCompleto.charAt(0).toUpperCase() }}</div>
+          <div class="nome-email"><h3><i class="pi pi-user" aria-hidden="true"></i> {{ participante.nomeCompleto }}</h3><p><i class="pi pi-envelope" aria-hidden="true"></i> {{ participante.email }}</p></div>
+          <span class="etiqueta-percurso" [class.percurso-10]="participante.percurso === 'KM_10'">{{ nomePercurso(participante.percurso) }}</span>
+        </div>
+
+        <div class="grade-dados">
+          <div class="item-dado"><span><i class="pi pi-calendar" aria-hidden="true"></i> Data de nascimento</span><strong>{{ formatarData(participante.dataNascimento) }}</strong></div>
+          <div class="item-dado"><span><i class="pi pi-clock" aria-hidden="true"></i> Idade na data da prova</span><strong>{{ participante.idadeNaProva }} anos</strong></div>
+          <div class="item-dado"><span><i class="pi pi-users" aria-hidden="true"></i> Categoria</span><strong>{{ nomeCategoria(participante.categoria) }}</strong></div>
+          <div class="item-dado"><span><i class="pi pi-flag" aria-hidden="true"></i> Percurso escolhido</span><strong>{{ nomePercurso(participante.percurso) }}</strong></div>
+        </div>
+
+        <div class="nota-detalhes"><i class="pi pi-info-circle" aria-hidden="true"></i><span><strong>Regra aplicada:</strong> a idade e a categoria são calculadas considerando a data oficial da prova. Esses valores são derivados e não podem ser editados diretamente.</span></div>
+        <div class="acoes-detalhes">
+          <a pButton class="botao botao-secundario" routerLink="/inscricoes"><i class="pi pi-list" aria-hidden="true"></i> Voltar à lista</a>
+          <a pButton class="botao botao-principal" [routerLink]="['/inscricoes', participante.email, 'editar']"><i class="pi pi-pencil" aria-hidden="true"></i> Editar dados</a>
+        </div>
+      </article>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #naoEncontrada>
+    <div class="estado-nao-encontrada">
+      <span aria-hidden="true"><i class="pi pi-exclamation-circle"></i></span>
+      <h2>Inscrição não encontrada</h2>
+      <p>Não encontramos uma inscrição ativa para o e-mail desta URL. Verifique o endereço ou retorne à lista.</p>
+      <a pButton class="botao botao-principal" routerLink="/inscricoes"><i class="pi pi-list" aria-hidden="true"></i> Voltar para inscrições</a>
+    </div>
+  </ng-template>
+</section>

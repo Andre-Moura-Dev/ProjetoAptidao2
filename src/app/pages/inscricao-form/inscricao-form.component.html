@@ -1,0 +1,84 @@
+<section class="pagina-conteudo pagina-formulario">
+  <a class="link-voltar" routerLink="/inscricoes"><i class="pi pi-arrow-left" aria-hidden="true"></i> Voltar para inscrições</a>
+
+  <div *ngIf="carregandoInscricao" class="cartao-aviso" role="status">
+    <h2>Carregando inscrição...</h2>
+  </div>
+
+  <div *ngIf="inscricaoNaoEncontrada" class="cartao-aviso">
+    <span class="icone-aviso" aria-hidden="true"><i class="pi pi-exclamation-circle"></i></span>
+    <h2>Inscrição não encontrada</h2>
+    <p>Não existe uma inscrição ativa para o e-mail informado. Ela pode ter sido cancelada.</p>
+    <a pButton class="botao botao-principal" routerLink="/inscricoes"><i class="pi pi-list" aria-hidden="true"></i> Voltar à lista</a>
+  </div>
+
+  <ng-container *ngIf="!carregandoInscricao && !inscricaoNaoEncontrada">
+    <header class="cabecalho-formulario">
+      <p class="eyebrow">{{ modoEdicao ? 'ATUALIZAÇÃO DE PARTICIPANTE' : 'NOVA PARTICIPAÇÃO' }}</p>
+      <h2>{{ modoEdicao ? 'Editar inscrição' : 'Cadastrar inscrição' }}</h2>
+      <p>{{ modoEdicao ? 'Corrija os dados permitidos abaixo. O e-mail é a identificação da inscrição e não pode ser alterado.' : 'Preencha os quatro campos para registrar um participante na corrida.' }}</p>
+    </header>
+
+    <div class="cartao-formulario">
+      <div class="aviso-prova">
+        <span class="aviso-prova-icone" aria-hidden="true"><i class="pi pi-heart-fill"></i></span>
+        <div><strong>5ª Corrida Solidária da Vila Esperança</strong><span> {{ dataProvaFormatada }} · largada às 7h · Praça da Matriz</span></div>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="salvar()" novalidate>
+        <div class="campo">
+          <label for="nomeCompleto"><i class="pi pi-user" aria-hidden="true"></i> Nome completo <span>*</span></label>
+          <input pInputText id="nomeCompleto" type="text" formControlName="nomeCompleto" autocomplete="name" maxlength="140" placeholder="Ex.: Ana Souza" [class.campo-invalido]="(form.controls.nomeCompleto.touched && form.controls.nomeCompleto.invalid) || !!erroCampo('nomeCompleto')">
+          <small class="texto-ajuda">De 3 a 100 caracteres; espaços repetidos serão ajustados automaticamente.</small>
+          <small class="texto-erro" *ngIf="form.controls.nomeCompleto.touched && form.controls.nomeCompleto.hasError('required')">O nome completo é obrigatório.</small>
+          <small class="texto-erro" *ngIf="form.controls.nomeCompleto.touched && form.controls.nomeCompleto.hasError('minlength')">Informe pelo menos 3 caracteres após remover espaços extras.</small>
+          <small class="texto-erro" *ngIf="form.controls.nomeCompleto.touched && form.controls.nomeCompleto.hasError('maxlength')">O nome deve ter no máximo 100 caracteres.</small>
+          <small class="texto-erro" *ngIf="erroCampo('nomeCompleto')">{{ erroCampo('nomeCompleto') }}</small>
+        </div>
+
+        <div class="campo">
+          <label for="email"><i class="pi pi-envelope" aria-hidden="true"></i> E-mail <span>*</span><span *ngIf="modoEdicao" class="selo-bloqueado">Imutável na edição</span></label>
+          <input pInputText id="email" type="email" formControlName="email" autocomplete="email" placeholder="Ex.: ana@email.com" [class.campo-invalido]="(form.controls.email.touched && form.controls.email.invalid) || !!erroCampo('email')">
+          <small class="texto-ajuda" *ngIf="!modoEdicao">Será usado como identificador único da inscrição.</small>
+          <small class="texto-erro" *ngIf="form.controls.email.touched && form.controls.email.hasError('required')">O e-mail é obrigatório.</small>
+          <small class="texto-erro" *ngIf="form.controls.email.touched && form.controls.email.hasError('email')">Informe um endereço de e-mail válido.</small>
+          <small class="texto-erro" *ngIf="erroCampo('email')">{{ erroCampo('email') }}</small>
+        </div>
+
+        <div class="campo">
+          <label for="dataNascimento"><i class="pi pi-calendar" aria-hidden="true"></i> Data de nascimento <span>*</span></label>
+          <input pInputText id="dataNascimento" type="date" formControlName="dataNascimento" [max]="hoje" [class.campo-invalido]="(form.controls.dataNascimento.touched && form.controls.dataNascimento.invalid) || !!erroCampo('dataNascimento')">
+          <small class="texto-ajuda">A idade e a categoria são calculadas para o dia da prova.</small>
+          <small class="texto-erro" *ngIf="form.controls.dataNascimento.touched && form.controls.dataNascimento.hasError('required')">A data de nascimento é obrigatória.</small>
+          <small class="texto-erro" *ngIf="form.controls.dataNascimento.touched && form.controls.dataNascimento.hasError('dataInvalida')">Informe uma data válida.</small>
+          <small class="texto-erro" *ngIf="form.controls.dataNascimento.touched && form.controls.dataNascimento.hasError('dataNaoAnterior')">A data de nascimento deve ser anterior a hoje.</small>
+          <small class="texto-erro" *ngIf="erroCampo('dataNascimento')">{{ erroCampo('dataNascimento') }}</small>
+        </div>
+
+        <fieldset class="campo campo-percurso">
+          <legend><i class="pi pi-directions" aria-hidden="true"></i> Escolha o percurso <span>*</span></legend>
+          <label class="opcao-percurso" [class.opcao-selecionada]="form.controls.percurso.value === 'KM_5'">
+            <input type="radio" formControlName="percurso" value="KM_5">
+            <span class="radio-personalizado"></span>
+            <span class="opcao-conteudo"><strong>5 km</strong><small><i class="pi pi-users" aria-hidden="true"></i> Participantes a partir de 14 anos</small></span>
+          </label>
+          <label class="opcao-percurso" [class.opcao-selecionada]="form.controls.percurso.value === 'KM_10'">
+            <input type="radio" formControlName="percurso" value="KM_10">
+            <span class="radio-personalizado"></span>
+            <span class="opcao-conteudo"><strong>10 km</strong><small><i class="pi pi-flag" aria-hidden="true"></i> Somente participantes com 18 anos ou mais</small></span>
+          </label>
+          <small class="texto-erro" *ngIf="erroCampo('percurso')">{{ erroCampo('percurso') }}</small>
+        </fieldset>
+
+        <div class="nota-regulamento"><i class="pi pi-info-circle" aria-hidden="true"></i> <strong>Importante:</strong> a idade mínima é de 14 anos completos na data da prova. A inscrição é gratuita, com doação de 1 kg de alimento não perecível na retirada do kit.</div>
+
+        <p *ngIf="erroFormulario" class="erro-geral" role="alert"><i class="pi pi-exclamation-circle" aria-hidden="true"></i>{{ erroFormulario }}</p>
+
+        <div class="acoes-formulario">
+          <button pButton class="botao botao-secundario" type="button" (click)="voltar()"><i class="pi pi-times" aria-hidden="true"></i> Cancelar</button>
+          <button pButton class="botao botao-principal" type="submit"><i class="pi" [ngClass]="modoEdicao ? 'pi-save' : 'pi-user-plus'" aria-hidden="true"></i> {{ modoEdicao ? 'Salvar alterações' : 'Cadastrar participante' }}</button>
+        </div>
+      </form>
+    </div>
+  </ng-container>
+</section>

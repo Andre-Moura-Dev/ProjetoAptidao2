@@ -1,0 +1,9 @@
+.pagina-conteudo { max-width: 800px; margin: 0 auto; padding: 60px 20px; text-align: center; }
+.icone-nao-encontrado { display: grid; place-items: center; width: 48px; height: 48px; margin: 0 auto 12px; border: 1px solid #dce8df; border-radius: 15px; background: #edf5ef; color: #3d795b; font-size: 20px; }
+.marca-erro { color: #dbe7de; font-size: clamp(80px, 17vw, 140px); font-weight: 900; line-height: 1; letter-spacing: -7px; }
+.eyebrow { margin: 20px 0 7px; color: #64806f; font: 700 11px 'Courier New', monospace; letter-spacing: 2px; }
+h2 { margin: 0; color: #263e35; font-size: 28px; }
+p:not(.eyebrow) { color: #718077; font-size: 14px; }
+.botao { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 42px; margin-top: 13px; padding: 10px 16px; border: 0; border-radius: 9px; background: #2f6b4f; color: #fff; text-decoration: none; font-size: 13px; font-weight: 750; }
+.botao:hover { background: #25583f; color: #fff; }
+.botao:focus-visible { outline: 3px solid rgba(47,107,79,.28); outline-offset: 3px; }

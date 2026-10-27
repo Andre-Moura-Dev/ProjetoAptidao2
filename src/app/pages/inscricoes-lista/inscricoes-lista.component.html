@@ -1,0 +1,87 @@
+<section class="pagina-conteudo">
+  <div class="titulo-pagina">
+    <div>
+      <p class="eyebrow">PAINEL DA ORGANIZAÇÃO</p>
+      <h2>Inscrições</h2>
+      <p class="descricao-pagina">Gerencie os participantes da 5ª Corrida Solidária da Vila Esperança.</p>
+    </div>
+    <a pButton class="botao botao-principal" routerLink="/inscricoes/nova">
+      <i class="pi pi-plus" aria-hidden="true"></i> Nova inscrição
+    </a>
+  </div>
+
+  <p *ngIf="mensagemAcao" class="mensagem-acao" [class.mensagem-erro]="tipoMensagem === 'erro'" role="status">
+    <i class="pi" [ngClass]="tipoMensagem === 'erro' ? 'pi-exclamation-circle' : 'pi-check-circle'" aria-hidden="true"></i>
+    {{ mensagemAcao }}
+  </p>
+
+  <ng-container *ngIf="inscricoes$ | async as inscricoes">
+    <div *ngIf="inscricoes.length === 0" class="estado-vazio">
+      <div class="icone-vazio" aria-hidden="true"><i class="pi pi-directions"></i></div>
+      <h3>Nenhuma inscrição cadastrada</h3>
+      <p>Os participantes cadastrados aparecerão aqui. Comece criando a primeira inscrição.</p>
+      <a pButton class="botao botao-principal" routerLink="/inscricoes/nova"><i class="pi pi-user-plus" aria-hidden="true"></i> Cadastrar participante</a>
+    </div>
+
+    <div *ngIf="inscricoes.length > 0" class="lista-participantes row g-3">
+      <div class="col-12 col-md-6 col-xl-4" *ngFor="let inscricao of inscricoes; let i = index">
+        <article class="cartao-participante">
+          <div class="cartao-faixa"></div>
+          <div class="cartao-cabecalho">
+            <div class="avatar-participante" aria-hidden="true">{{ inscricao.nomeCompleto.charAt(0).toUpperCase() }}</div>
+            <span class="numero-inscricao">INSCRIÇÃO {{ (i + 1).toString().padStart(3, '0') }}</span>
+            <span class="etiqueta-percurso" [class.percurso-10]="inscricao.percurso === 'KM_10'">
+              {{ nomePercurso(inscricao.percurso) }}
+            </span>
+          </div>
+
+          <h3 class="nome-participante">{{ inscricao.nomeCompleto }}</h3>
+          <p class="email-participante">{{ inscricao.email }}</p>
+
+          <div class="divisor-cartao"></div>
+          <dl class="dados-participante">
+            <div>
+              <dt>Nascimento</dt>
+              <dd>{{ formatarData(inscricao.dataNascimento) }}</dd>
+            </div>
+            <div>
+              <dt>Idade na prova</dt>
+              <dd>{{ inscricao.idadeNaProva }} anos</dd>
+            </div>
+            <div>
+              <dt>Categoria</dt>
+              <dd><span class="etiqueta-categoria">{{ nomeCategoria(inscricao.categoria) }}</span></dd>
+            </div>
+          </dl>
+
+          <div class="acoes-cartao">
+            <a pButton class="botao botao-secundario" [routerLink]="['/inscricoes', inscricao.email]"><i class="pi pi-eye" aria-hidden="true"></i> Detalhes</a>
+            <a pButton class="botao botao-secundario" [routerLink]="['/inscricoes', inscricao.email, 'editar']"><i class="pi pi-pencil" aria-hidden="true"></i> Editar</a>
+            <button pButton class="botao botao-perigo" type="button" (click)="solicitarCancelamento(inscricao)"><i class="pi pi-times" aria-hidden="true"></i> Cancelar</button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </ng-container>
+</section>
+
+<p-dialog
+  header="Cancelar inscrição?"
+  [visible]="modalCancelamentoVisivel"
+  (visibleChange)="alterarVisibilidadeModal($event)"
+  [modal]="true"
+  [dismissableMask]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [closable]="false"
+  styleClass="modal-confirmacao">
+  <ng-container *ngIf="inscricaoParaCancelar as inscricao">
+    <div class="modal-icone" aria-hidden="true"><i class="pi pi-exclamation-triangle"></i></div>
+    <p>Você está prestes a cancelar a inscrição de <strong>{{ inscricao.nomeCompleto }}</strong>.</p>
+    <p class="texto-secundario">O e-mail {{ inscricao.email }} ficará liberado para um novo cadastro.</p>
+    <div class="acoes-modal">
+      <button pButton class="botao botao-secundario" type="button" (click)="fecharModal()"><i class="pi pi-arrow-left" aria-hidden="true"></i> Voltar</button>
+      <button pButton class="botao botao-perigo" type="button" (click)="confirmarCancelamento()"><i class="pi pi-trash" aria-hidden="true"></i> Confirmar cancelamento</button>
+    </div>
+  </ng-container>
+</p-dialog>
